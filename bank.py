@@ -1,17 +1,15 @@
 from customer import Customer
+from customer_file_data_service import CustomerFileDataService
 
 class Bank:
-    def __init__(self, name):
+    def __init__(self, name, data_service = CustomerFileDataService()):
         self.bank_name = name
         self.customers = {}
+        self.data_service = data_service
     
     def add_all_customers(self):
-        file = open('customers.csv', 'r')
-        lines = file.readlines()
- 
-        for line in lines:
-            row = line.strip().split(",")
-            customer = Customer(int(row[0]), int(row[1]), row[2])
+        customers = self.data_service.get_all_data()
+        for customer in customers:
             self.add_customer(customer)
     
     def add_customer(self, customer):
